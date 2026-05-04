@@ -100,11 +100,12 @@ The vast majority of parameters in every model are the frozen embedding weights 
 ### Final Model Comparison
 
 | Model | Accuracy | Tot. Params | Trainable | T/epoch | Inference |
-|---|---|---|---|---|---|---|
-| CNN-LSTM | 99.40% | 2,072,597 | — | 434s | 0.226ms |
-| CNN-GRU | 99.42%  | 2,059,597 | — | 503s | 0.242ms |
-| CNN-Only | 98.86%  | 2,023,649 | — | 139s | 0.188ms |
+|---|---|---|---|---|---|
+| CNN-LSTM | 99.40% | 2,072,597 | 56,405 | 434s | 0.226ms |
+| CNN-GRU | 99.42% | 2,059,597 | 43,405 | 503s | 0.242ms |
+| CNN-Only | 98.86% | 2,023,649 | 7,457 | 139s | 0.188ms |
 | CNN-Only (Improved) | 99.18% | 2,024,833 | 8,513 | 223s | 0.184ms |
+
 
 The key finding is that **CNN-GRU matches or slightly outperforms CNN-LSTM** across both accuracy and AUC while training ~13% faster per epoch. The **CNN-Only (Improved)** model — which adds a second convolutional block and batch normalization — closes most of the gap to the recurrent models while remaining over 2× faster to train and achieving the fastest inference time (0.184ms/sample).
 
