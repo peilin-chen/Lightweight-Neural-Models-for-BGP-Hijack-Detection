@@ -46,8 +46,8 @@ This Jupyter notebook is a standalone, end-to-end PyTorch implementation of the 
 - **2. ASN Embedding (BGP2VEC)** — loads the pre-trained `2days_2020.b2v` Word2Vec model (or trains from `.paths` as fallback), builds the embedding matrix, and optionally renders a t-SNE visualization of the ASN embedding space.
 - **3. Dataset & DataLoader** — encodes AS paths as padded integer index sequences and wraps them in PyTorch `Dataset`/`DataLoader` objects.
 - **4. Model Definitions** — defines a shared `BGPEncoder` front-end (embedding + Conv1D + MaxPool) in PyTorch `nn.Module`, then three classifier heads: `CNN-LSTM`, `CNN-GRU`, and `CNN-Only`.
-- **5. Training Loop** — uses `BCEWithLogitsLoss` with `pos_weight ≈ 20.3` to handle class imbalance (1,799,698 legitimate vs 88,573 hijacked in training). Trains each model for 5 epochs, logging train/val loss, accuracy, and AUC per epoch.
-- **6. Results & Comparison** — produces a summary table, training curves (3×3 grid of loss and accuracy plots), normalized confusion matrices, overlaid ROC curves, and an efficiency frontier scatter plot.
+- **5. Training Loop** — uses `BCEWithLogitsLoss` with `pos_weight ≈ 20.3` to handle class imbalance (1,799,698 legitimate vs 88,573 hijacked in training). Trains each model for 10 epochs, logging train/val loss and accuracy per epoch.
+- **6. Results & Comparison** — produces a summary table, training curves, normalized confusion matrices, and an efficiency frontier scatter plot.
 - **7. Analysis & Discussion** — quantifies the relative accuracy, parameter count, and inference speed of each model vs. the CNN-LSTM baseline.
 - **9. Conclusions** — answers the research question: full recurrent sequence modeling is not necessary. On this dataset, CNN-Only slightly outperformed both recurrent models while being 32–38% faster at inference.
 
@@ -107,7 +107,7 @@ The vast majority of parameters in every model are the frozen embedding weights 
 | CNN-Only (Improved) | 99.18% | 2,024,833 | 8,513 | 223s | 0.184ms |
 
 
-The key finding is that **CNN-GRU matches or slightly outperforms CNN-LSTM** across both accuracy and AUC while training ~13% faster per epoch. The **CNN-Only (Improved)** model — which adds a second convolutional block and batch normalization — closes most of the gap to the recurrent models while remaining over 2× faster to train and achieving the fastest inference time (0.184ms/sample).
+The key finding is that **CNN-GRU matches or slightly outperforms CNN-LSTM** across both accuracy while training ~13% faster per epoch. The **CNN-Only (Improved)** model — which adds a second convolutional block and batch normalization — closes most of the gap to the recurrent models while remaining over 2× faster to train and achieving the fastest inference time (0.184ms/sample).
 
 ### Figure: Training Curves
 
