@@ -35,6 +35,22 @@ python3 lstm_hijack_classifier.py <bgp2vec_model> <labeled_paths_file> <output_m
 python3 lstm_hijack_classifier.py bgp2vec/2days_2020.b2v classified/2days_2020.vf lstm/2days_2020.keras 0
 
 
+### `bgp_hijack_detection_real_data.ipynb` and `final.pdf` — PyTorch Exploration Notebook
+
+This Jupyter notebook is a standalone, end-to-end PyTorch implementation of the same research question. It is structured as a reproducible research log covering the full pipeline from raw data to analysis, and is intended to be run sequentially on the real `2days_2020` dataset files.
+
+**Sections:**
+
+- **0. Environment Setup** — installs dependencies (PyTorch, gensim, scikit-learn, seaborn) and sets global seeds for reproducibility.
+- **1. Data Loading & Preprocessing** — parses `2days_2020.vf` into a labeled DataFrame (GREEN/RED), performs stratified train/test split, and runs exploratory data analysis including class distribution, AS path length histograms, and top-ASN frequency plots.
+- **2. ASN Embedding (BGP2VEC)** — loads the pre-trained `2days_2020.b2v` Word2Vec model (or trains from `.paths` as fallback), builds the embedding matrix, and optionally renders a t-SNE visualization of the ASN embedding space.
+- **3. Dataset & DataLoader** — encodes AS paths as padded integer index sequences and wraps them in PyTorch `Dataset`/`DataLoader` objects.
+- **4. Model Definitions** — defines a shared `BGPEncoder` front-end (embedding + Conv1D + MaxPool) in PyTorch `nn.Module`, then three classifier heads: `CNN-LSTM`, `CNN-GRU`, and `CNN-Only`.
+- **5. Training Loop** — uses `BCEWithLogitsLoss` with `pos_weight ≈ 20.3` to handle class imbalance (1,799,698 legitimate vs 88,573 hijacked in training). Trains each model for 5 epochs, logging train/val loss, accuracy, and AUC per epoch.
+- **6. Results & Comparison** — produces a summary table, training curves (3×3 grid of loss and accuracy plots), normalized confusion matrices, overlaid ROC curves, and an efficiency frontier scatter plot.
+- **7. Analysis & Discussion** — quantifies the relative accuracy, parameter count, and inference speed of each model vs. the CNN-LSTM baseline.
+- **9. Conclusions** — answers the research question: full recurrent sequence modeling is not necessary. On this dataset, CNN-Only slightly outperformed both recurrent models while being 32–38% faster at inference.
+
 ## Dataset
 
 The experiments use the `2days_2020.vf` labeled dataset from the [bgphijack repo](https://github.com/bgphijack/bgphijack) (Shapira & Shavitt, 2020). It contains **2,697,532 AS paths** labeled as either legitimate (GREEN) or hijacked (RED).
