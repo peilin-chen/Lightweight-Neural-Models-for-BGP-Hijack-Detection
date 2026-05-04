@@ -16,6 +16,15 @@ The script reads labeled BGP paths, converts each AS path into a sequence of BGP
 
 lstm_hijack_classifier.py
 
+## Arguments
+
+| Argument | Description |
+|---|---|
+| `bgp2vec_model` | Path to the trained BGP2Vec model |
+| `labeled_paths_file` | Path to the labeled AS path dataset |
+| `output_model` | Path where the trained Keras model will be saved |
+| `model_selection` | Model architecture selection: `0` for CNN-LSTM, `1` for CNN-GRU, `2` for CNN-Only |
+
 ## Usage
 
 python3 lstm_hijack_classifier.py <bgp2vec_model> <labeled_paths_file> <output_model> <model_selection>
