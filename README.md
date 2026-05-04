@@ -13,7 +13,7 @@ The script reads labeled BGP paths, converts each AS path into a sequence of BGP
 
 ---
 
-## File
+## Files
 
 ### `lstm_hijack_classifier.py`
 
