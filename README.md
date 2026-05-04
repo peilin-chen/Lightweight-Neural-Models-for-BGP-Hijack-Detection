@@ -14,5 +14,12 @@ The script reads labeled BGP paths, converts each AS path into a sequence of BGP
 
 ## File
 
-```bash
 lstm_hijack_classifier.py
+
+## Usage
+
+python3 lstm_hijack_classifier.py <bgp2vec_model> <labeled_paths_file> <output_model> <model_selection>
+
+## Example
+
+python3 lstm_hijack_classifier.py bgp2vec/2days_2020.b2v classified/2days_2020.vf lstm/2days_2020.keras 0
