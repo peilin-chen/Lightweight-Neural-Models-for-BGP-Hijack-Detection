@@ -57,7 +57,7 @@ This Jupyter notebook is Keras/TensorFlow implementation. It is structured as a 
 
 ## Dataset
 
-It contains **2,697,532 AS paths** labeled as either legitimate (GREEN) or hijacked (RED).
+`2days_2020.vf` contains **2,697,532 AS paths** labeled as either legitimate (GREEN) or hijacked (RED).
 
 | Class | Count | Share |
 |---|---|---|
